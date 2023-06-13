@@ -1,1 +1,5 @@
-include ':core', ':core-sample-app', ':chromecast-sender', ':chromecast-sender-sample-app', ':custom-ui'
+if (!System.env.JITPACK) {
+    include ':core', ':core-sample-app', ':chromecast-sender', ':chromecast-sender-sample-app', ':custom-ui'
+} else {
+    include ':core'
+}
