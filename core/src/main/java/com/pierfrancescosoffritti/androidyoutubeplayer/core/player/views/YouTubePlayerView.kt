@@ -2,7 +2,7 @@ package com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
@@ -34,6 +34,7 @@ class YouTubePlayerView(
   constructor(context: Context, attrs: AttributeSet? = null) : this(context, attrs, 0)
 
   private val fullscreenListeners = mutableListOf<FullscreenListener>()
+  private var customOnTouchListener: OnTouchListener? = null
 
   /**
    * A single [FullscreenListener] that is always added to the WebView,
@@ -235,5 +236,19 @@ class YouTubePlayerView(
       width = targetWidth
       height = targetHeight
     }
+  }
+
+  override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+    val isTouchEventHandled = customOnTouchListener?.onTouch(rootView,ev) ?: false
+
+    if (isTouchEventHandled) {
+      return true
+    }
+
+    return super.onInterceptTouchEvent(ev);
+  }
+
+  override fun setOnTouchListener(listener: OnTouchListener?) {
+    customOnTouchListener = listener
   }
 }
